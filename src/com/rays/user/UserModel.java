@@ -119,4 +119,34 @@ public class UserModel {
 		return dto;
 	}
 	
+	public List search(UserDTO dto, int pageNo, int pageSize) {
+		
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
+		
+		Session session = sf.openSession();
+		
+		Criteria criteria = session.createCriteria(UserDTO.class);
+		
+		if(dto != null) {
+			
+			if(dto.getFirstName() != null && dto.getFirstName().length() > 0) {
+				
+				criteria.add(Restrictions.like("firstName", dto.getFirstName()+ "%"));
+				
+			}
+		
+		}
+		
+		if(pageSize>0) {
+			pageNo = (pageNo - 1)* pageSize;
+			criteria.setFirstResult(pageNo);
+			criteria.setMaxResults(pageSize);
+		}
+
+		List list = criteria.list();
+		
+		session.close();
+		
+		return list;
+	}
 }

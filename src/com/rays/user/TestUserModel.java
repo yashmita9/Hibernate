@@ -1,6 +1,8 @@
 package com.rays.user;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class TestUserModel {
 
@@ -11,7 +13,8 @@ public class TestUserModel {
 //		testGet();
 //		testDelete();
 //		testAuth();
-		testAuthByCriteria();
+//		testAuthByCriteria();
+		testSearch();
 	}
 
 	private static void testAdd() {
@@ -50,7 +53,7 @@ public class TestUserModel {
 
 		UserDTO dto = model.findByPk(1);
 
-		System.out.println(dto.getId());
+		System.out.print(dto.getId());
 		System.out.println(dto.getFirstName());
 		System.out.println(dto.getLastName());
 		System.out.println(dto.getLoginId());
@@ -107,6 +110,30 @@ public class TestUserModel {
 			System.out.println("Authentication failed..!!");
 		}
 
+	}
+	
+	private static void testSearch() {
+		
+		UserDTO dto = new UserDTO();
+		
+		UserModel model = new UserModel();
+		
+		List list = model.search(dto, 1, 5);
+		
+		Iterator it = list.iterator();
+		
+		while(it.hasNext()) {
+			
+			dto = (UserDTO) it.next();
+			
+			System.out.print(dto.getId());
+			System.out.print("\t" + dto.getFirstName());
+			System.out.print("\t" + dto.getLastName());
+			System.out.print("\t" + dto.getLoginId());
+			System.out.print("\t" + dto.getPassword());
+			System.out.print("\t" + dto.getDob());
+			System.out.println("\t" + dto.getAddress());
+		}
 	}
 
 }
