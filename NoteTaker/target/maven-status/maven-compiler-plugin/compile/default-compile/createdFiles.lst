@@ -1,0 +1,4 @@
+com\rays\entity\Note.class
+com\rays\util\HibDataSource.class
+com\rays\controller\NotesCtl.class
+com\rays\controller\ORSView.class

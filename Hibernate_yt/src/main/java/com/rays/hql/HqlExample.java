@@ -1,0 +1,59 @@
+package com.rays.hql;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.hibernate.query.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class HqlExample {
+
+	public static void main(String[] args) {
+
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
+
+//		Session session = sf.openSession();
+//
+////		Query q = session.createQuery("from Student where city = 'indore'");
+//		Query q = session.createQuery("from Student where city=:x");
+//		q.setParameter("x", "indore");
+//		List<Student> list = q.list();
+//		for (Student student : list) {
+//			System.out.println(student.getName() + " , " + student.getId());
+//		}
+////		Delete query......
+//		
+//		Transaction tx = session.beginTransaction();
+////		Query q2 = session.createQuery("delete from Student s where s.city=:c");
+////		q2.setParameter("c","bhopal");
+////		q2.executeUpdate();
+////		
+//		session.close();
+////		Update query...
+		 Session s = sf.openSession();
+	        Transaction tx2 = s.beginTransaction();
+
+	        Student dto = new Student();
+	        dto.setId(1); // existing student ID
+	        dto.setName("yashu");
+	        dto.setCity("indore");
+
+	        s.saveOrUpdate(dto);; 
+	        tx2.commit();
+	       
+	        
+//	 Join Query..........
+	       Query q = s.createQuery("select q.ques, q.id ,a.ans from Question as q  INNER jOIN q.ans as a");
+	       Query q1 = s.createQuery("select a.id, a.ans ,q.ques from Answer as a INNER jOIN a.ques as q");
+	        List<Object []>  list = q1.getResultList();
+		
+	        for(Object [] arr : list) {
+	        	System.out.println(Arrays.toString(arr));
+	        }
+	        s.close();
+	}
+
+}
